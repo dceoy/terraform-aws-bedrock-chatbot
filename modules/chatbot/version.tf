@@ -1,1 +1,1 @@
-../bedrock/version.tf
+../bedrockagent/version.tf
