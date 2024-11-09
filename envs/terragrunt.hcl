@@ -1,6 +1,7 @@
 locals {
-  repo_root = get_repo_root()
-  env_vars  = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  repo_root                 = get_repo_root()
+  env_vars                  = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  bedrock_agent_instruction = "Provide accurate responses based only on verified information. If uncertain, acknowledge the limitations of your knowledge."
 }
 
 terraform {
@@ -55,16 +56,16 @@ inputs = {
   env_type                       = local.env_vars.locals.env_type
   iam_role_force_detach_policies = true
   bedrock_agent_foundation_models = {
-    claude-3-5-haiku  = "anthropic.claude-3-5-haiku-20241022-v1:0"
-    claude-3-5-sonnet = "anthropic.claude-3-5-sonnet-20241022-v2:0"
-    llama3-2-1b       = "meta.llama3-2-1b-instruct-v1:0"
-    llama3-2-3b       = "meta.llama3-2-3b-instruct-v1:0"
+    llama3-2-1b = "meta.llama3-2-1b-instruct-v1:0"
+    llama3-2-3b = "meta.llama3-2-3b-instruct-v1:0"
+    # claude-3-5-haiku  = "anthropic.claude-3-5-haiku-20241022-v1:0"
+    # claude-3-5-sonnet = "anthropic.claude-3-5-sonnet-20241022-v2:0"
   }
   bedrock_agent_idle_session_ttl_in_seconds = 600
-  bedrock_agent_skip_resource_in_use_check  = false
+  bedrock_agent_instruction                 = get_env("AMAZON_BEDROCK_AGENT_INSTRUCTION", local.bedrock_agent_instruction)
+  bedrock_agent_skip_resource_in_use_check  = true
   bedrock_agent_prepare_agent               = true
   bedrock_provisioned_throughput_arns       = {}
-  chatbot_slack_workspace_id                = get_env("AWS_CHATBOT_SLACK_WORKSPACE_ID", null)
-  chatbot_slack_channel_id                  = get_env("AWS_CHATBOT_SLACK_CHANNEL_ID", "aws-bedrock")
-  # bedrock_agent_instruction                 = null
+  chatbot_slack_workspace_id                = get_env("AWS_CHATBOT_SLACK_WORKSPACE_ID")
+  chatbot_slack_channel_id                  = get_env("AWS_CHATBOT_SLACK_CHANNEL_ID", "amazon-bedrock")
 }

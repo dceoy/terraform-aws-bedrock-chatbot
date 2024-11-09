@@ -39,3 +39,9 @@ variable "bedrock_agent_alias_arns" {
   type        = list(string)
   default     = []
 }
+
+variable "guardrail_policy_arns" {
+  description = "List of IAM policy ARNs that are applied as channel guardrails"
+  type        = list(string)
+  default     = []
+}

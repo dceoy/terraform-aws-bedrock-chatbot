@@ -74,9 +74,12 @@ resource "aws_bedrockagent_agent_alias" "genai" {
   agent_alias_name = each.key
   agent_id         = each.value.agent_id
   description      = "Bedrock agent alias for ${each.key}"
-  routing_configuration {
-    agent_version          = each.value.agent_version
-    provisioned_throughput = lookup(var.bedrock_provisioned_throughput_arns, each.key, null)
+  dynamic "routing_configuration" {
+    for_each = contains(keys(var.bedrock_provisioned_throughput_arns), each.key) ? [true] : []
+    content {
+      agent_version          = each.value.agent_version
+      provisioned_throughput = var.bedrock_provisioned_throughput_arns[each.key]
+    }
   }
   tags = {
     Name    = "${var.system_name}-${var.env_type}-bedrock-${each.key}-agent-alias"

@@ -41,7 +41,7 @@ variable "bedrock_agent_idle_session_ttl_in_seconds" {
 variable "bedrock_agent_instruction" {
   description = "Instructions that tell Bedrock agents what it should do and how it should interact with users"
   type        = string
-  default     = null
+  default     = "You are an IT agent who solves customer's problems."
   validation {
     condition     = length(var.bedrock_agent_instruction) >= 40 && length(var.bedrock_agent_instruction) <= 4000
     error_message = "Bedrock agent instruction must be between 40 and 4000 characters"
@@ -51,7 +51,7 @@ variable "bedrock_agent_instruction" {
 variable "bedrock_agent_skip_resource_in_use_check" {
   description = "Whether the in-use check is skipped when deleting Bedrock agents"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "bedrock_agent_prepare_agent" {

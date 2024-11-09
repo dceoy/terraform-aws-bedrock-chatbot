@@ -13,7 +13,7 @@ dependency "bedrockagent" {
 }
 
 inputs = {
-  bedrock_agent_alias_arns = dependency.bedrockagent.outputs.bedrock_agent_alias_arns
+  bedrock_agent_alias_arns = values(dependency.bedrockagent.outputs.bedrock_agent_alias_arns)
 }
 
 terraform {
