@@ -2,7 +2,7 @@ resource "aws_bedrockagent_agent" "genai" {
   for_each                    = var.bedrock_agent_foundation_models
   agent_name                  = "${var.system_name}-${var.env_type}-bedrock-${each.key}-agent"
   description                 = "Bedrock agent for ${each.key} (${each.value})"
-  agent_resource_role_arn     = aws_iam_role.genai.arn
+  agent_resource_role_arn     = aws_iam_role.genai[0].arn
   foundation_model            = each.value
   idle_session_ttl_in_seconds = var.bedrock_agent_idle_session_ttl_in_seconds
   instruction                 = var.bedrock_agent_instruction
@@ -34,7 +34,7 @@ resource "aws_iam_role" "genai" {
         }
         Condition = {
           StringEquals = {
-            "aws:SourceAccount" = local.current.account_id
+            "aws:SourceAccount" = local.account_id
           }
           ArnLike = {
             "AWS:SourceArn" = "arn:aws:bedrock:${local.region}:${local.account_id}:agent/*"
