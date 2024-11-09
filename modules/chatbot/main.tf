@@ -40,9 +40,9 @@ resource "aws_iam_role" "slack" {
 }
 
 resource "aws_iam_role_policy" "bedrock" {
-  count  = var.chatbot_slack_workspace_id != null && length(var.bedrock_agent_alias_ids) > 0 ? 1 : 0
-  name   = "${var.system_name}-${var.env_type}-chatbot-iam-role-policy"
-  role   = aws_iam_role.slack[count.index].id
+  count = var.chatbot_slack_workspace_id != null && length(var.bedrock_agent_alias_ids) > 0 ? 1 : 0
+  name  = "${var.system_name}-${var.env_type}-chatbot-iam-role-policy"
+  role  = aws_iam_role.slack[count.index].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

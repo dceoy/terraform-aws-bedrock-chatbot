@@ -10,7 +10,7 @@ output "bedrock_agent_versions" {
 
 output "bedrock_agent_iam_role_arn" {
   description = "Bedrock agent IAM role ARN"
-  value       = aws_iam_role.genai.arn
+  value       = length(aws_iam_role.genai) > 0 ? aws_iam_role.genai[0].arn : null
 }
 
 output "bedrock_agent_alias_arns" {

@@ -17,6 +17,7 @@ resource "aws_bedrockagent_agent" "genai" {
 }
 
 resource "aws_iam_role" "genai" {
+  count                 = length(var.bedrock_agent_foundation_models) > 0 ? 1 : 0
   name                  = "${var.system_name}-${var.env_type}-bedrock-agent-iam-role"
   description           = "Bedrock agent IAM role"
   force_detach_policies = var.iam_role_force_detach_policies
@@ -49,9 +50,10 @@ resource "aws_iam_role" "genai" {
   }
 }
 
-resources "aws_iam_role_policy" "genai" {
-  name   = "${var.system_name}-${var.env_type}-bedrock-agent-iam-policy"
-  role   = aws_iam_role.genai.id
+resource "aws_iam_role_policy" "genai" {
+  count = length(var.bedrock_agent_foundation_models) > 0 ? 1 : 0
+  name  = "${var.system_name}-${var.env_type}-bedrock-agent-iam-policy"
+  role  = aws_iam_role.genai[count.index].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
