@@ -1,5 +1,5 @@
 resource "aws_chatbot_slack_channel_configuration" "slack" {
-  count                 = var.chatbot_slack_workspace_id != null ? 1 : 0
+  count                 = local.create_chatbot ? 1 : 0
   configuration_name    = "${var.system_name}-${var.env_type}-chatbot-slack-channel-configuration"
   iam_role_arn          = aws_iam_role.slack[count.index].arn
   slack_channel_id      = var.chatbot_slack_channel_id
@@ -15,7 +15,7 @@ resource "aws_chatbot_slack_channel_configuration" "slack" {
 }
 
 resource "aws_iam_role" "slack" {
-  count                 = var.chatbot_slack_workspace_id != null ? 1 : 0
+  count                 = local.create_chatbot ? 1 : 0
   name                  = "${var.system_name}-${var.env_type}-chatbot-iam-role"
   description           = "Chatbot IAM role"
   force_detach_policies = var.iam_role_force_detach_policies
@@ -41,17 +41,25 @@ resource "aws_iam_role" "slack" {
 }
 
 resource "aws_iam_role_policy" "bedrock" {
-  count = var.chatbot_slack_workspace_id != null && length(var.bedrock_agent_alias_arns) > 0 ? 1 : 0
+  count = local.create_chatbot ? 1 : 0
   name  = "${var.system_name}-${var.env_type}-chatbot-iam-role-policy"
   role  = aws_iam_role.slack[count.index].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid      = "AllowInvokeBedrockAgent"
-        Effect   = "Allow"
-        Action   = ["bedrock:InvokeAgent"]
-        Resource = var.bedrock_agent_alias_arns
+        Sid    = "AllowInvokeBedrockAgent"
+        Effect = "Allow"
+        Action = ["bedrock:InvokeAgent"]
+        Resource = length(var.bedrock_agent_alias_arns) > 0 ? var.bedrock_agent_alias_arns : [
+          "arn:aws:bedrock:${local.region}:${local.account_id}:agent-alias/*/*"
+        ]
+        Condition = length(var.bedrock_agent_alias_arns) > 0 ? {} : {
+          StringEquals = {
+            "aws:ResourceTag/SystemName" = var.system_name
+            "aws:ResourceTag/EnvType"    = var.env_type
+          }
+        }
       }
     ]
   })

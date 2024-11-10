@@ -62,10 +62,10 @@ inputs = {
     # claude-3-5-sonnet = "anthropic.claude-3-5-sonnet-20241022-v2:0"
   }
   bedrock_agent_idle_session_ttl_in_seconds = 600
-  bedrock_agent_instruction                 = get_env("AMAZON_BEDROCK_AGENT_INSTRUCTION", local.bedrock_agent_instruction)
+  bedrock_agent_instruction                 = get_env("BEDROCK_CHATBOT_INSTRUCTION", local.bedrock_agent_instruction)
   bedrock_agent_skip_resource_in_use_check  = true
   bedrock_agent_prepare_agent               = true
   bedrock_provisioned_throughput_arns       = {}
-  chatbot_slack_workspace_id                = get_env("AWS_CHATBOT_SLACK_WORKSPACE_ID")
-  chatbot_slack_channel_id                  = get_env("AWS_CHATBOT_SLACK_CHANNEL_ID", "amazon-bedrock")
+  chatbot_slack_workspace_id                = get_env("BEDROCK_CHATBOT_SLACK_WORKSPACE_ID")
+  chatbot_slack_channel_id                  = get_env("BEDROCK_CHATBOT_SLACK_CHANNEL_ID")
 }

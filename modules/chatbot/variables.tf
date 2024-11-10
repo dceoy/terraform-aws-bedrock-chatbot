@@ -31,7 +31,7 @@ variable "chatbot_slack_workspace_id" {
 variable "chatbot_slack_channel_id" {
   description = "Chatbot Slack channel ID"
   type        = string
-  default     = "aws-account"
+  default     = null
 }
 
 variable "bedrock_agent_alias_arns" {
