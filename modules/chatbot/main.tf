@@ -27,7 +27,7 @@ resource "aws_iam_role" "slack" {
         Sid    = "AllowChatbotAssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "management.chatbot.amazonaws.com"
+          Service = "chatbot.amazonaws.com"
         }
         Action = ["sts:AssumeRole"]
       }
