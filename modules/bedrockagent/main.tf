@@ -10,9 +10,9 @@ resource "aws_bedrockagent_agent" "genai" {
   skip_resource_in_use_check  = var.bedrock_agent_skip_resource_in_use_check
   prepare_agent               = var.bedrock_agent_prepare_agent
   tags = {
-    Name    = "${var.system_name}-${var.env_type}-bedrock-${each.key}-agent"
-    System  = var.system_name
-    EnvType = var.env_type
+    Name       = "${var.system_name}-${var.env_type}-bedrock-${each.key}-agent"
+    SystemName = var.system_name
+    EnvType    = var.env_type
   }
 }
 
@@ -44,9 +44,9 @@ resource "aws_iam_role" "genai" {
     ]
   })
   tags = {
-    Name    = "${var.system_name}-${var.env_type}-bedrock-agent-iam-role"
-    System  = var.system_name
-    EnvType = var.env_type
+    Name       = "${var.system_name}-${var.env_type}-bedrock-agent-iam-role"
+    SystemName = var.system_name
+    EnvType    = var.env_type
   }
 }
 
@@ -82,8 +82,8 @@ resource "aws_bedrockagent_agent_alias" "genai" {
     }
   }
   tags = {
-    Name    = "${var.system_name}-${var.env_type}-bedrock-${each.key}-agent-alias"
-    System  = var.system_name
-    EnvType = var.env_type
+    Name       = "${var.system_name}-${var.env_type}-bedrock-${each.key}-agent-alias"
+    SystemName = var.system_name
+    EnvType    = var.env_type
   }
 }
