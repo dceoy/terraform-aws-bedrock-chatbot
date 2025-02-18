@@ -42,7 +42,7 @@ resource "aws_iam_role" "slack" {
 
 resource "aws_iam_role_policy" "bedrock" {
   count = local.create_chatbot ? 1 : 0
-  name  = "${var.system_name}-${var.env_type}-chatbot-iam-role-policy"
+  name  = "${var.system_name}-${var.env_type}-chatbot-bedrock-iam-policy"
   role  = aws_iam_role.slack[count.index].id
   policy = jsonencode({
     Version = "2012-10-17"
