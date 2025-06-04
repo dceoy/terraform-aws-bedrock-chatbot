@@ -21,13 +21,13 @@ variable "sns_topic_arns" {
 }
 
 variable "chatbot_slack_workspace_id" {
-  description = "Chatbot Slack workspace ID"
+  description = "ID of the Slack workspace authorized with Chatbot"
   type        = string
   default     = null
 }
 
 variable "chatbot_slack_channel_id" {
-  description = "Chatbot Slack channel ID"
+  description = "ID of the Slack channel for Chatbot"
   type        = string
   default     = null
 }
@@ -38,8 +38,18 @@ variable "bedrock_agent_alias_arns" {
   default     = []
 }
 
-variable "guardrail_policy_arns" {
-  description = "List of IAM policy ARNs that are applied as channel guardrails"
+variable "chatbot_guardrail_policy_arns" {
+  description = "List of IAM policy ARNs that are applied as channel guardrails for Chatbot"
   type        = list(string)
-  default     = []
+  default     = ["arn:aws:iam::aws:policy/ReadOnlyAccess"]
+}
+
+variable "chatbot_logging_level" {
+  description = "Logging levels include ERROR, INFO, or NONE"
+  type        = string
+  default     = "NONE"
+  validation {
+    condition     = var.chatbot_logging_level == "ERROR" || var.chatbot_logging_level == "INFO" || var.chatbot_logging_level == "NONE"
+    error_message = "Logging level must be one of ERROR, INFO, or NONE."
+  }
 }

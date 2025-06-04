@@ -73,4 +73,6 @@ inputs = {
   bedrock_provisioned_throughput_arns       = {}
   chatbot_slack_workspace_id                = get_env("BEDROCK_CHATBOT_SLACK_WORKSPACE_ID")
   chatbot_slack_channel_id                  = get_env("BEDROCK_CHATBOT_SLACK_CHANNEL_ID")
+  chatbot_guardrail_policy_arns             = ["arn:aws:iam::aws:policy/PowerUserAccess"]
+  chatbot_logging_level                     = "NONE"
 }
