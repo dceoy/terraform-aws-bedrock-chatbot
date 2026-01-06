@@ -1,19 +1,17 @@
-terraform-aws-bedrock-chatbot
-=============================
+# terraform-aws-bedrock-chatbot
 
 Terraform modules for Bedrock-powered Slack Chatbot
 
 [![CI](https://github.com/dceoy/terraform-aws-bedrock-chatbot/actions/workflows/ci.yml/badge.svg)](https://github.com/dceoy/terraform-aws-bedrock-chatbot/actions/workflows/ci.yml)
 
-Installation
-------------
+## Installation
 
 1.  Check out the repository.
 
     ```sh
     $ git clone https://github.com/dceoy/terraform-aws-bedrock-chatbot.git
     $ cd terraform-aws-bedrock-chatbot
-    ````
+    ```
 
 2.  Install [AWS CLI](https://aws.amazon.com/cli/) and set `~/.aws/config` and `~/.aws/credentials`.
 
@@ -45,8 +43,7 @@ Installation
     $ terragrunt run-all apply --terragrunt-working-dir='envs/dev/' --terragrunt-non-interactive
     ```
 
-Cleanup
--------
+## Cleanup
 
 ```sh
 $ terragrunt run-all destroy --terragrunt-working-dir='envs/dev/' --terragrunt-non-interactive
